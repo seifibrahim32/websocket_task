@@ -70,3 +70,16 @@ _connectivitySubscription = Connectivity().onConnectivityChanged.listen((result)
 | Emitting entire state on every update | Too costly for large lists and inefficient. |
 | Union event types or dynamic dispatch | Harder to read, debug, and test. |
 | Keeping WebSocket always active | Wasteful during disconnection; breaks user expectations. |
+
+### Q&A
+1 - Your strategy for managing and merging the multiple, distinct event types within your BLoC without resorting to complex or unreadable logic.?
+- I used Bloc instead for managing successful events and failure, we allowed the UI to deal from the state of the loaded instruments.
+- I used Equatable to avoid multiple created instance through overriding props from Equatable class.
+
+2 - How you addressed the connection lifecycle and automatic reconnection requirements.
+- Through `connectivity_plus` package, I used it for any change has taken place.
+- If there is no connection, the cached instruments will be removed till the internet comes back again.
+
+3- Any significant design trade-offs you made and why.
+- I integrated InstrumentModel with PriceModel which it may violate SOLID, but for sake of time, we used it as extension since we focus on performance
+same output for each instrument type between Postman and the Flutter app.
